@@ -4,7 +4,6 @@ platform "el-7-x86_64" do |plat|
   plat.servicetype "systemd"
 
   plat.provision_with "rpm --import http://yum.puppetlabs.com/RPM-GPG-KEY-puppetlabs"
-  plat.add_build_repository "http://pl-build-tools.delivery.puppetlabs.net/yum/pl-build-tools-release-el-7.noarch.rpm"
   packages = [
     "autoconf",
     "automake",
@@ -17,8 +16,6 @@ platform "el-7-x86_64" do |plat|
     "libselinux-devel",
     "make",
     "pkgconfig",
-    "pl-cmake",
-    "pl-gcc",
     "readline-devel",
     "rsync",
     "rpm-build",
