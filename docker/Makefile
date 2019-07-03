@@ -38,7 +38,7 @@ build-agent-runtimes: prep
 			--build-arg "project_branch=$$branch" \
 			--build-arg "project=agent" \
 			--tag $(NAMESPACE)/agent-runtime-$$branch:$(version) \
-			runtime; \
+			puppet-runtime; \
 		done
 
 test: prep test-agent-runtimes
