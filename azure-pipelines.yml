@@ -33,7 +33,7 @@ steps:
     Build-Container -Name puppet-runtime -Namespace $ENV:NAMESPACE
   displayName: Build Container
   name: build_container
- - powershell: |
+- powershell: |
      . "$(bundle show pupperware)/ci/build.ps1"
      Initialize-TestEnv
    displayName: Prepare Test Environment
