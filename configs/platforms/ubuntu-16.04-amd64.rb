@@ -4,7 +4,6 @@ platform "ubuntu-16.04-amd64" do |plat|
   plat.servicetype "systemd"
   plat.codename "xenial"
 
-  plat.add_build_repository "http://pl-build-tools.delivery.puppetlabs.net/debian/pl-build-tools-release-#{plat_get_codename}.deb"
   plat.provision_with "curl http://apt.puppetlabs.com/pubkey.gpg | apt-key add - "
 
   plat.provision_with "export DEBIAN_FRONTEND=noninteractive; apt-get update -qq; apt-get install -qy --no-install-recommends build-essential devscripts make quilt pkg-config debhelper rsync fakeroot"
@@ -17,8 +16,6 @@ platform "ubuntu-16.04-amd64" do |plat|
     "make",
     "openjdk-8-jdk",
     "pkg-config",
-    "pl-cmake",
-    "pl-gcc",
     "swig",
     "systemtap-sdt-dev",
     "zlib1g-dev"
