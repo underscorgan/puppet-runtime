@@ -2,7 +2,11 @@ component "ruby-shadow" do |pkg, settings, platform|
   pkg.url "git://github.com/apalmblad/ruby-shadow"
   pkg.ref "refs/tags/2.5.0"
 
-  pkg.build_requires "ruby-#{settings[:ruby_version]}"
+  if settings[:runtime_project].eql? 'pdk'
+    pkg.build_requires "ruby-runtime"
+  else
+    pkg.build_requires "ruby-#{ruby_version}"
+  end
   pkg.environment "PATH", "$(PATH):/usr/ccs/bin:/usr/sfw/bin"
   pkg.environment "CONFIGURE_ARGS", '--vendor'
 

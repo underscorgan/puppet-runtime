@@ -42,7 +42,11 @@ component "libxml2" do |pkg, settings, platform|
     pkg.environment "CFLAGS" => settings[:cflags]
   end
 
-  pkg.build_requires "runtime-#{settings[:runtime_project]}"
+  if settings[:runtime_project].eql? 'pdk'
+    pkg.build_requires 'ruby-runtime'
+  else
+    pkg.build_requires "runtime-#{settings[:runtime_project]}"
+  end
 
   pkg.configure do
     ["./configure --prefix=#{settings[:prefix]} --without-python #{settings[:host]}"]

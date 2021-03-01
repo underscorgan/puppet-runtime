@@ -9,19 +9,28 @@ component 'curl' do |pkg, settings, platform|
     pkg.apply_patch 'resources/patches/curl/curl-7.55.1-aix-poll.patch'
   end
 
-  unless settings[:system_openssl]
-    pkg.build_requires "openssl-#{settings[:openssl_version]}"
+  if settings[:runtime_project].eql? 'pdk'
+    pkg.build_requires "ruby-runtime"
+  else
+    pkg.build_requires "puppet-ca-bundle"
+    pkg.build_requires "openssl-#{settings[:openssl_version]}" unless settings[:system_openssl]
   end
 
-  pkg.build_requires "puppet-ca-bundle"
-
   if platform.is_cross_compiled_linux?
-    pkg.build_requires "runtime-#{settings[:runtime_project]}"
+    if settings[:runtime_project].eql? 'pdk'
+      pkg.build_requires 'ruby-runtime'
+    else
+      pkg.build_requires "runtime-#{settings[:runtime_project]}"
+    end
     pkg.environment "PATH" => "/opt/pl-build-tools/bin:$(PATH):#{settings[:bindir]}"
     pkg.environment "PKG_CONFIG_PATH" => "/opt/puppetlabs/puppet/lib/pkgconfig"
     pkg.environment "PATH" => "/opt/pl-build-tools/bin:$(PATH)"
   elsif platform.is_windows?
-    pkg.build_requires "runtime-#{settings[:runtime_project]}"
+    if settings[:runtime_project].eql? 'pdk'
+      pkg.build_requires 'ruby-runtime'
+    else
+      pkg.build_requires "runtime-#{settings[:runtime_project]}"
+    end
     pkg.environment "PATH" => "$(shell cygpath -u #{settings[:gcc_bindir]}):$(PATH)"
     pkg.environment "CYGWIN" => settings[:cygwin]
   else

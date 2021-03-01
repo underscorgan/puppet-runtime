@@ -34,7 +34,12 @@ else
   pkg.mirror "#{settings[:buildsources_url]}/libselinux-#{pkg.get_version}.tar.gz"
 end
 
-pkg.build_requires "ruby-#{ruby_version}"
+if settings[:runtime_project].eql? 'pdk'
+  pkg.build_requires "ruby-runtime"
+else
+  pkg.build_requires "ruby-#{ruby_version}"
+end
+
 cc = "/opt/pl-build-tools/bin/gcc"
 system_include = "-I/usr/include"
 ruby = "#{ruby_bindir}/ruby -rrbconfig"

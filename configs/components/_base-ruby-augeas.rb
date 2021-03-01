@@ -14,7 +14,11 @@ pkg.md5sum "a132eace43ce13ccd059e22c0b1188ac"
 pkg.url "http://download.augeas.net/ruby/ruby-augeas-#{pkg.get_version}.tgz"
 pkg.mirror "#{settings[:buildsources_url]}/ruby-augeas-#{pkg.get_version}.tgz"
 
-pkg.build_requires "ruby-#{ruby_version}"
+if settings[:runtime_project].eql? 'pdk'
+  pkg.build_requires "ruby-runtime"
+else
+  pkg.build_requires "ruby-#{ruby_version}"
+end
 pkg.build_requires "augeas"
 
 pkg.environment "PATH", "$(PATH):/opt/pl-build-tools/bin:/usr/local/bin:/opt/csw/bin:/usr/ccs/bin:/usr/sfw/bin"

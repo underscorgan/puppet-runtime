@@ -25,7 +25,11 @@ end
 pkg.url "https://rubygems.org/downloads/stomp-#{pkg.get_version}.gem"
 pkg.mirror "#{settings[:buildsources_url]}/stomp-#{pkg.get_version}.gem"
 
-pkg.build_requires "ruby-#{ruby_version}"
+if settings[:runtime_project].eql? 'pdk'
+  pkg.build_requires "ruby-runtime"
+else
+  pkg.build_requires "ruby-#{ruby_version}"
+end
 
 # Because we are cross-compiling on sparc, we can't use the rubygems we just built.
 # Instead we use the host gem installation and override GEM_HOME. Yay?

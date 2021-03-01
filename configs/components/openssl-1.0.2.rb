@@ -72,7 +72,11 @@ component 'openssl' do |pkg, settings, platform|
   # BUILD REQUIREMENTS
   ####################
 
-  pkg.build_requires "runtime-#{settings[:runtime_project]}"
+  if settings[:runtime_project]
+    pkg.build_requires "runtime-pdk"
+  else
+    pkg.build_requires "runtime-#{settings[:runtime_project]}"
+  end
 
   #########
   # PATCHES

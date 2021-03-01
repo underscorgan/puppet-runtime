@@ -55,7 +55,11 @@ component 'augeas' do |pkg, settings, platform|
   if platform.is_aix?
         # We still use pl-gcc for AIX 7.1
     pkg.environment "CC", "/opt/pl-build-tools/bin/gcc"
-    pkg.build_requires "runtime-#{settings[:runtime_project]}"
+    if settings[:runtime_project].eql? 'pdk'
+      pkg.build_requires 'ruby-runtime'
+    else
+      pkg.build_requires "runtime-#{settings[:runtime_project]}"
+    end
     pkg.environment "LDFLAGS", settings[:ldflags]
     pkg.environment "CFLAGS", "-I#{settings[:includedir]}"
     pkg.build_requires 'libedit'
@@ -63,7 +67,11 @@ component 'augeas' do |pkg, settings, platform|
 
   if platform.is_rpm? && !platform.is_aix?
     if platform.architecture =~ /aarch64|ppc64|ppc64le/
-      pkg.build_requires "runtime-#{settings[:runtime_project]}"
+      if settings[:runtime_project].eql? 'pdk'
+        pkg.build_requires 'ruby-runtime'
+      else
+        pkg.build_requires "runtime-#{settings[:runtime_project]}"
+      end
       pkg.environment "PATH", "/opt/pl-build-tools/bin:$(PATH):#{settings[:bindir]}"
       pkg.environment "CFLAGS", settings[:cflags]
       pkg.environment "LDFLAGS", settings[:ldflags]
@@ -86,7 +94,11 @@ component 'augeas' do |pkg, settings, platform|
     pkg.environment "CFLAGS", settings[:cflags]
     pkg.environment "LDFLAGS", settings[:ldflags]
     pkg.build_requires 'libedit'
-    pkg.build_requires "runtime-#{settings[:runtime_project]}"
+    if settings[:runtime_project].eql? 'pdk'
+      pkg.build_requires 'ruby-runtime'
+    else
+      pkg.build_requires "runtime-#{settings[:runtime_project]}"
+    end
     if platform.os_version == "10"
       pkg.environment "PKG_CONFIG_PATH", "/opt/csw/lib/pkgconfig"
       pkg.environment "PKG_CONFIG", "/opt/csw/bin/pkg-config"
